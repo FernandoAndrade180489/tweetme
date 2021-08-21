@@ -13,7 +13,7 @@
 2. Twets
     -> Creating
         -> Text
-        -> Image
+        -> Image -> Media Storage Server
     -> Delete
     -> Retweeting
 
