@@ -1,4 +1,12 @@
-1. Users
+1. Twets
+    -> Creating
+        -> Text
+        -> Image -> Media Storage Server
+    -> Delete
+    -> Retweeting
+    -> Liking
+
+2. Users
     -> Register
     -> Login
     -> Logout
@@ -10,12 +18,6 @@
         -> User's feed only?
         -> User + who they follow?
 
-2. Twets
-    -> Creating
-        -> Text
-        -> Image -> Media Storage Server
-    -> Delete
-    -> Retweeting
 
 3. Following / Followers
 
