@@ -16,14 +16,17 @@ def home_view(request, *args, **kwargs):
 
 
 def tweet_create_view(request, *args, **kwargs):
+    # print("ajax", request.is_ajax())
     form = TweetForm(request.POST or None)
-    #print('post data is ', request.POST)
+    # print('post data is ', request.POST)
     next_url = request.POST.get("next" or None)
-    print("next_url", next_url)
+    # print("next_url", next_url)
     if form.is_valid():
         obj = form.save(commit=False)
         # do other form related logic
         obj.save()
+        if request.is_ajax():
+            return JsonResponse({}, status=201) # 201 == created items
         # Check if the form has the next URL to redirect and if it is a valid URL within ALLOWED_HOSTS - security way
         if next_url !=None and is_safe_url(next_url, ALLOWED_HOSTS):
             return redirect(next_url)
