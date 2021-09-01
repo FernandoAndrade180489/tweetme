@@ -2,6 +2,31 @@ import React, { useState, useEffect } from "react";
 
 import { loadTweets } from "../lookup";
 
+export function TweetsComponent(props) {
+  const textAreaRef = React.createRef()
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    // console.log(event);
+    const newVal = textAreaRef.current.value
+    console.log(newVal)
+    textAreaRef.current.value = ''
+  };
+
+  return (
+    <div className={props.className}>
+      <div className="col-12 mb-3">
+        <form onSubmit={handleSubmit}>
+          <textarea ref={textAreaRef} required={true} className="form-control"></textarea>
+          <button type="submit" className="btn btn-primary my-3">
+            Tweet
+          </button>
+        </form>
+      </div>
+      <TweetsList />
+    </div>
+  );
+}
+
 export function TweetsList(props) {
   const [tweets, setTweets] = useState([]);
 
@@ -32,7 +57,9 @@ export function TweetsList(props) {
 export function ActionBtn(props) {
   const { tweet, action } = props;
   const [likes, setLikes] = useState(tweet.likes ? tweet.likes : 0);
-  const [userLike, setUserLike] = useState(tweet.userLike === true ? true : false);
+  const [userLike, setUserLike] = useState(
+    tweet.userLike === true ? true : false
+  );
   const className = props.className
     ? props.className
     : "btn btn-primary btn-sm";
