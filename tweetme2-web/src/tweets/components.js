@@ -3,39 +3,62 @@ import React, { useState, useEffect } from "react";
 import { loadTweets } from "../lookup";
 
 export function TweetsComponent(props) {
-  const textAreaRef = React.createRef()
+  const textAreaRef = React.createRef();
+  const [newTweets, setNewTweets] = useState([]);
   const handleSubmit = (event) => {
     event.preventDefault();
     // console.log(event);
-    const newVal = textAreaRef.current.value
-    console.log(newVal)
-    textAreaRef.current.value = ''
+    const newVal = textAreaRef.current.value;
+    // console.log(newVal)
+    let tempNewTweets = [...newTweets];
+    // change this to a server side call
+    tempNewTweets.unshift({
+      content: newVal,
+      likes: 0,
+      id: 50,
+    });
+    setNewTweets(tempNewTweets);
+    textAreaRef.current.value = "";
   };
 
   return (
     <div className={props.className}>
       <div className="col-12 mb-3">
         <form onSubmit={handleSubmit}>
-          <textarea ref={textAreaRef} required={true} className="form-control"></textarea>
+          <textarea
+            ref={textAreaRef}
+            required={true}
+            className="form-control"
+          ></textarea>
           <button type="submit" className="btn btn-primary my-3">
             Tweet
           </button>
         </form>
       </div>
-      <TweetsList />
+      <TweetsList newTweets={newTweets} />
     </div>
   );
 }
 
 export function TweetsList(props) {
+  const [tweetsInit, setTweetsInit] = useState([]);
   const [tweets, setTweets] = useState([]);
+  // console.log(props.newTweets)
+  // setTweetsInit([...props.newTweets].concat(tweetsInit)) - infinite loop
+
+  useEffect(() => {
+    const final = [...props.newTweets].concat(tweetsInit);
+    if (final.length !== tweets.length) {
+      setTweets(final);
+    }
+  }, [props.newTweets, tweets, tweetsInit]);
 
   useEffect(() => {
     // do my lookup
     const myCallback = (response, status) => {
       // console.log(response, status)
       if (status === 200) {
-        setTweets(response);
+        setTweetsInit(response);
       } else {
         alert("There was an error");
       }
