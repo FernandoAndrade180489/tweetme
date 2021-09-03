@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 
-import { loadTweets } from "../lookup";
+import { createTweet, loadTweets } from "../lookup";
 
 export function TweetsComponent(props) {
   const textAreaRef = React.createRef();
@@ -12,11 +12,15 @@ export function TweetsComponent(props) {
     // console.log(newVal)
     let tempNewTweets = [...newTweets];
     // change this to a server side call
-    tempNewTweets.unshift({
-      content: newVal,
-      likes: 0,
-      id: 50,
+    createTweet(newVal, (response, status) => {
+      if (status === 201) {
+        tempNewTweets.unshift(response);
+      } else {
+        console.log(response);
+        alert("An error occured, please try again");
+      }
     });
+    
     setNewTweets(tempNewTweets);
     textAreaRef.current.value = "";
   };
@@ -43,12 +47,12 @@ export function TweetsComponent(props) {
 export function TweetsList(props) {
   const [tweetsInit, setTweetsInit] = useState([]);
   const [tweets, setTweets] = useState([]);
-  const [tweetsDidSet, setTweetsDidSet] = useState(false)
+  const [tweetsDidSet, setTweetsDidSet] = useState(false);
   // console.log(props.newTweets)
   // setTweetsInit([...props.newTweets].concat(tweetsInit)) - infinite loop
 
   useEffect(() => {
-    console.log("useEffect for insert new tweets - run more then one time")
+    console.log("useEffect for insert new tweets - run more then one time");
     const final = [...props.newTweets].concat(tweetsInit);
     if (final.length !== tweets.length) {
       setTweets(final);
@@ -62,12 +66,12 @@ export function TweetsList(props) {
         // console.log(response, status)
         if (status === 200) {
           setTweetsInit(response);
-          setTweetsDidSet(true)
+          setTweetsDidSet(true);
         } else {
           alert("There was an error");
         }
       };
-      loadTweets(myCallback);      
+      loadTweets(myCallback);
     }
   }, [tweetsInit, tweetsDidSet, setTweetsDidSet]);
 
