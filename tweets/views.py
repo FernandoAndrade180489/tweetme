@@ -30,7 +30,8 @@ def home_view(request, *args, **kwargs):
 # @authentication_classes([SessionAuthentication, MyCustomAuth])
 @permission_classes([IsAuthenticated]) # REST API course
 def tweet_create_view(request, *args, **kwargs):
-    serializer = TweetCreateSerializer(data=request.POST)
+    print(request.data)
+    serializer = TweetCreateSerializer(data=request.data)
     if serializer.is_valid(raise_exception=True):
         # obj = serializer.save(user=request.user, content='abc') - can change content if put like this 
         serializer.save(user=request.user)
