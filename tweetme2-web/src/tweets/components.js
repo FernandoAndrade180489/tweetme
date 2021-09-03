@@ -47,6 +47,7 @@ export function TweetsList(props) {
   // setTweetsInit([...props.newTweets].concat(tweetsInit)) - infinite loop
 
   useEffect(() => {
+    console.log("useEffect for insert new tweets - run more then one time")
     const final = [...props.newTweets].concat(tweetsInit);
     if (final.length !== tweets.length) {
       setTweets(final);
