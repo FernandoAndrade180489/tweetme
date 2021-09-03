@@ -43,6 +43,7 @@ export function TweetsComponent(props) {
 export function TweetsList(props) {
   const [tweetsInit, setTweetsInit] = useState([]);
   const [tweets, setTweets] = useState([]);
+  const [tweetsDidSet, setTweetsDidSet] = useState(false)
   // console.log(props.newTweets)
   // setTweetsInit([...props.newTweets].concat(tweetsInit)) - infinite loop
 
@@ -55,17 +56,20 @@ export function TweetsList(props) {
   }, [props.newTweets, tweets, tweetsInit]);
 
   useEffect(() => {
-    // do my lookup
-    const myCallback = (response, status) => {
-      // console.log(response, status)
-      if (status === 200) {
-        setTweetsInit(response);
-      } else {
-        alert("There was an error");
-      }
-    };
-    loadTweets(myCallback);
-  }, []);
+    if (tweetsDidSet === false) {
+      // do my lookup
+      const myCallback = (response, status) => {
+        // console.log(response, status)
+        if (status === 200) {
+          setTweetsInit(response);
+          setTweetsDidSet(true)
+        } else {
+          alert("There was an error");
+        }
+      };
+      loadTweets(myCallback);      
+    }
+  }, [tweetsInit, tweetsDidSet, setTweetsDidSet]);
 
   return tweets.map((item, index) => {
     return (
