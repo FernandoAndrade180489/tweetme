@@ -30,7 +30,7 @@ function lookup(method, endpoint, callback, data) {
   
   console.log(csrftoken)
 
-  if (csrftoken && method === 'POST') {
+  if (csrftoken) {
     xhr.setRequestHeader("HTTP_X_REQUESTED_WITH", "XMLHttpRequest")
     xhr.setRequestHeader("X-Requested-With", "XMLHttpRequest")
     xhr.setRequestHeader("X-CSRFToken", csrftoken) // JWT token

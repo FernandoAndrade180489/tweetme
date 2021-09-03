@@ -34,8 +34,8 @@ def tweet_create_view(request, *args, **kwargs):
     if serializer.is_valid(raise_exception=True):
         # obj = serializer.save(user=request.user, content='abc') - can change content if put like this 
         serializer.save(user=request.user)
-        return JsonResponse(serializer.data, status=201)          
-    return JsonResponse({}, status=400)
+        return Response(serializer.data, status=201)          
+    return Response({}, status=400)
 
 
 @api_view(['GET'])

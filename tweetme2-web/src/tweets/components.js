@@ -12,7 +12,7 @@ export function TweetsComponent(props) {
     // console.log(newVal)
     let tempNewTweets = [...newTweets];
     // change this to a server side call
-    createTweet(newVal, (response, status) => {
+    createTweet(newVal, (response, status)=>{
       if (status === 201) {
         tempNewTweets.unshift(response);
       } else {
@@ -20,7 +20,7 @@ export function TweetsComponent(props) {
         alert("An error occured, please try again");
       }
     });
-    
+
     setNewTweets(tempNewTweets);
     textAreaRef.current.value = "";
   };
@@ -111,8 +111,7 @@ export function ActionBtn(props) {
     }
   };
 
-  const display =
-    action.type === "like" ? `${likes} ${actionDisplay}` : actionDisplay;
+  const display = action.type === "like" ? `${likes} ${actionDisplay}` : actionDisplay;
   return (
     <button className={className} onClick={handleClick}>
       {display}
