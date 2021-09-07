@@ -28,7 +28,7 @@ export function backendLookup(method, endpoint, callback, data) {
   xhr.open(method, url);
   xhr.setRequestHeader("Content-Type", "application/json");
   
-  console.log(csrftoken)
+  // console.log(csrftoken)
 
   if (csrftoken) {
     xhr.setRequestHeader("HTTP_X_REQUESTED_WITH", "XMLHttpRequest")
