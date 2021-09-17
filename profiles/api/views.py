@@ -7,10 +7,21 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
 from ..models import Profile
+from ..serializers import PublicProfileSerializer
 
 User = get_user_model()
 
 ALLOWED_HOSTS = settings.ALLOWED_HOSTS
+
+@api_view(['GET'])
+def profile_detail_api_view(request, username, *args, **kwargs):
+    # get the profile for the passed username
+    qs = Profile.objects.filter(user__username=username)
+    if not qs.exists():
+        return Response({"detail": "User not found"}, status=404)
+    profile_obj = qs.first()
+    data = PublicProfileSerializer(instance=profile_obj)
+    return Response(data.data, status=200)
  
 
 @api_view(['GET', 'POST']) 
