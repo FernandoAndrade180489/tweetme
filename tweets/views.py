@@ -9,9 +9,7 @@ ALLOWED_HOSTS = settings.ALLOWED_HOSTS
 
 # Create your views here.
 def home_view(request, *args, **kwargs):
-    print(request.user)
-    # return HttpResponse("<h1>Hello World</h1>")
-    return render(request, "pages/home.html", context={})
+    return render(request, "pages/feed.html")
 
 def tweets_list_view(request, *args, **kwargs):
     return render(request, "tweets/list.html")
