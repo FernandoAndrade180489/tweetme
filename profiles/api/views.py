@@ -46,8 +46,8 @@ def user_follow_view(request, username, *args, **kwargs):
         profile.followers.remove(me)
     else:
         pass
-    current_followers_qs = profile.followers.all()
-    return Response({"count": current_followers_qs.count()}, status=200)
+    data = PublicProfileSerializer(instance=profile, context={"request": request})
+    return Response(data.data, status=200)
 
     """
     It's not necessary Serializer, because I am return only count data and not the followers of a user.
